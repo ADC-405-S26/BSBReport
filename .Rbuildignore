@@ -6,3 +6,4 @@
 ^BSBReport\.Rcheck$
 ^BSBReport.*\.tar\.gz$
 ^BSBReport.*\.tgz$
+^data-raw$
