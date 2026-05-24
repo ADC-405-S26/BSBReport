@@ -3,7 +3,7 @@
 #'
 #'
 #' @format ## `trackman_data`
-#' A data frame with 25 rows and 6 columns:
+#' A data frame with 25 rows and 7 columns:
 #' \describe{
 #'   \item{TaggedPitchType}{Character denoting pitch type}
 #'   \item{PitchCount}{integer of pitch count}
@@ -11,5 +11,6 @@
 #'   \item{HorzBreak}{integer representing the HB for each pitch}
 #'   \item{PlateLocHeight}{integer of measured pitch height at front of home plate}
 #'   \item{PlateLocSide}{integer of measured pitch horizontal location at front of home plate}
+#'   \item{RelSpeed}{integer of measured pitch speed at release in mph}
 #' }
 "trackman_data"

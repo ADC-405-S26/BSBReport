@@ -1,4 +1,5 @@
 ## code to prepare `trackman_data_code` dataset goes here
+# Sample Data Creation
 trackman_data <- data.frame(
   TaggedPitchType = c("Fastball","Fastball","Fastball", "Cutter","Cutter","Cutter","Sinker","Sinker","Sinker",
                       "Changeup","Changeup","Changeup","Changeup","Changeup",
@@ -21,6 +22,10 @@ trackman_data <- data.frame(
   PlateLocSide = c(-0.77511, 0.95868, -0.80157, -0.8733, -1.49088, -0.99222, 0.32435, 1.0878, 0.64693,
                    0.86804, -0.16006, 0.14014, -0.81981, -2.32798,
                    0.67108,-2.1007, 1.57592, -0.02886, -0.78008,-2.93686,
-                   -1.44917, -0.03935, -2.84925, 1.136, -0.30033))
+                   -1.44917, -0.03935, -2.84925, 1.136, -0.30033),
+  RelSpeed = c(88.2,89.4,87.3,84.4,83.7,84.6, 86.6, 87.1, 88.1,
+               82.2, 81.4, 81.6, 80.9, 82.1,
+               79.3, 81.4, 80.4, 79.9, 80.2, 81.2,
+               77.2, 76.3, 75.5, 76.2, 76.2))
 
 usethis::use_data(trackman_data_code, overwrite = TRUE)
