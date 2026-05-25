@@ -7,3 +7,4 @@
 ^BSBReport.*\.tar\.gz$
 ^BSBReport.*\.tgz$
 ^data-raw$
+^LICENSE\.md$

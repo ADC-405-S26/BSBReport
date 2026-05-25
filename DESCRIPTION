@@ -1,14 +1,19 @@
 Package: BSBReport
-Title: CMJ and Trackman Data Analysis
+Title: Trackman Data Analysis
 Version: 0.0.0.9000
 Authors@R: 
     person("Nick", "Katz", , "katzn@lawrence.edu", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
+Imports:
+    ggplot2,
+    kableExtra,
+    knitr,
+    dplyr,
+    checkmate
 Depends: 
     R (>= 3.5)
 LazyData: true

@@ -4,12 +4,23 @@
 #'
 #' @returns a plot displaying pitch location within the strikezone to see command and location
 #' @export
-#' @ImportFrom dplyr group_by summarise n
+#' @importFrom dplyr group_by summarise n
 #' @importFrom knitr kable
 #' @importFrom ggplot2 ggplot aes geom_point labs guides geom_path theme_classic coord_equal
 #'
 #'
 #' @examples
+#' #mini sample trackman dataset
+#' library(dplyr)
+#' library(ggplot2)
+#' library(knitr)
+#' demo_trackman_data <- data.frame(
+#'   TaggedPitchType = c("Fastball", "Curveball"),
+#'   RelSpeed = c(88.23, 80.35),
+#'   PlateLocHeight = c(1.73, 2.14),
+#'   PlateLocSide = c(0.84, 0.92))
+#'
+#'  Plate_Viz(demo_trackman_data)
 Plate_Viz <-function(data){
   grouped_data <- dplyr::group_by(data, .data$TaggedPitchType)
 

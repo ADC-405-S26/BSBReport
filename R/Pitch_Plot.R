@@ -9,6 +9,17 @@
 #' @export
 #'
 #' @examples
+#' library(dplyr)
+#' library(ggplot2)
+#' library(knitr)
+#' #mini sample trackman dataset
+#' demo_trackman_data <- data.frame(
+#'   TaggedPitchType = c("Fastball", "Curveball"),
+#'   RelSpeed = c(88.23, 80.35),
+#'   InducedVertBreak = c(15.25, -6.44),
+#'   HorzBreak = c(12.87, -3.45))
+#'
+#'  Pitch_Plot(demo_trackman_data)
 Pitch_Plot <- function(data){
   grouped_data <- dplyr::group_by(data, .data$TaggedPitchType)
 
