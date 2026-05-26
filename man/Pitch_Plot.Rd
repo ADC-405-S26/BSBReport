@@ -4,10 +4,12 @@
 \alias{Pitch_Plot}
 \title{Generating Pitch Movement Plot and Summary Table}
 \usage{
-Pitch_Plot(data)
+Pitch_Plot(data, PlayerId = NULL)
 }
 \arguments{
 \item{data}{Trackman data with standard naming}
+
+\item{PlayerId}{Optional: Unique integer for identifying specific pitcher / player}
 }
 \value{
 A summary table with session averages and advanced stats like VAA, as well as a pitch movement plot
@@ -22,6 +24,7 @@ library(knitr)
 #mini sample trackman dataset
 demo_trackman_data <- data.frame(
   TaggedPitchType = c("Fastball", "Curveball"),
+  PitcherId = c(1122334455, 2233445566),
   RelSpeed = c(88.23, 80.35),
   InducedVertBreak = c(15.25, -6.44),
   HorzBreak = c(12.87, -3.45))

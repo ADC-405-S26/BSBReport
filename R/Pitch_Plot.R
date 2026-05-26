@@ -1,6 +1,7 @@
 #' Generating Pitch Movement Plot and Summary Table
 #'
 #' @param data Trackman data with standard naming
+#' @param PlayerId Optional: Unique integer for identifying specific pitcher / player
 #'
 #' @returns A summary table with session averages and advanced stats like VAA, as well as a pitch movement plot
 #' @importFrom dplyr group_by summarise n
@@ -15,12 +16,20 @@
 #' #mini sample trackman dataset
 #' demo_trackman_data <- data.frame(
 #'   TaggedPitchType = c("Fastball", "Curveball"),
+#'   PitcherId = c(1122334455, 2233445566),
 #'   RelSpeed = c(88.23, 80.35),
 #'   InducedVertBreak = c(15.25, -6.44),
 #'   HorzBreak = c(12.87, -3.45))
 #'
 #'  Pitch_Plot(demo_trackman_data)
-Pitch_Plot <- function(data){
+Pitch_Plot <- function(data, PlayerId = NULL){
+  checkmate::assert_data_frame(data, min.rows = 2, min.cols = 5, col.names = "named")
+
+  checkmate::assert_names(colnames(data), must.include =
+                            c("TaggedPitchType", "PitcherId", "RelSpeed", "InducedVertBreak", "HorzBreak"))
+
+  if(!is.null(PlayerId)) {data <- dplyr::filter(data, .data$PitcherId == PlayerId)}
+
   grouped_data <- dplyr::group_by(data, .data$TaggedPitchType)
 
   Pitch_Analysis_Table <- dplyr::summarise(grouped_data,
@@ -42,5 +51,5 @@ Pitch_Plot <- function(data){
                  color = "Pitch Type") +
     ggplot2::guides(shape = "none") +
     ggplot2::theme_classic()
-  return(move_graph)
-}
+
+  return(move_graph)}

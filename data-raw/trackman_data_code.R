@@ -1,6 +1,9 @@
 ## code to prepare `trackman_data_code` dataset goes here
 # Sample Data Creation
 trackman_data <- data.frame(
+  PitcherId = c("1122334455","2233445566","2233445566","2233445566","1122334455","1122334455","1122334455","1122334455",
+                "1122334455","1122334455","1122334455","1122334455","1122334455","1122334455","1122334455","1122334455",
+                "1122334455","1122334455","1122334455","1122334455","1122334455","2233445566","2233445566","2233445566","2233445566"),
   TaggedPitchType = c("Fastball","Fastball","Fastball", "Cutter","Cutter","Cutter","Sinker","Sinker","Sinker",
                       "Changeup","Changeup","Changeup","Changeup","Changeup",
                       "Slider", "Slider","Slider","Slider","Slider","Slider",

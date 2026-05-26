@@ -4,10 +4,12 @@
 \alias{Plate_Viz}
 \title{Pitch Location Plot}
 \usage{
-Plate_Viz(data)
+Plate_Viz(data, PlayerId = NULL)
 }
 \arguments{
 \item{data}{Trackman data with standard naming}
+
+\item{PlayerId}{Optional: Unique integer for identifying specific pitcher / player}
 }
 \value{
 a plot displaying pitch location within the strikezone to see command and location
@@ -22,6 +24,7 @@ library(ggplot2)
 library(knitr)
 demo_trackman_data <- data.frame(
   TaggedPitchType = c("Fastball", "Curveball"),
+  PitcherId = c(1122334455, 2233445566),
   RelSpeed = c(88.23, 80.35),
   PlateLocHeight = c(1.73, 2.14),
   PlateLocSide = c(0.84, 0.92))

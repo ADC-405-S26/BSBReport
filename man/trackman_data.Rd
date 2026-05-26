@@ -7,8 +7,9 @@
 \format{
 \subsection{\code{trackman_data}}{
 
-A data frame with 25 rows and 7 columns:
+A data frame with 25 rows and 8 columns:
 \describe{
+\item{PlayerId}{Integer value denoting unique player id}
 \item{TaggedPitchType}{Character denoting pitch type}
 \item{PitchCount}{integer of pitch count}
 \item{InducedVertBreak}{integer representing the IVB for each pitch}

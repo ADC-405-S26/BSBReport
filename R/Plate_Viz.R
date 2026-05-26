@@ -1,6 +1,7 @@
 #' Pitch Location Plot
 #'
 #' @param data Trackman data with standard naming
+#' @param PlayerId Optional: Unique integer for identifying specific pitcher / player
 #'
 #' @returns a plot displaying pitch location within the strikezone to see command and location
 #' @export
@@ -16,12 +17,20 @@
 #' library(knitr)
 #' demo_trackman_data <- data.frame(
 #'   TaggedPitchType = c("Fastball", "Curveball"),
+#'   PitcherId = c(1122334455, 2233445566),
 #'   RelSpeed = c(88.23, 80.35),
 #'   PlateLocHeight = c(1.73, 2.14),
 #'   PlateLocSide = c(0.84, 0.92))
 #'
 #'  Plate_Viz(demo_trackman_data)
-Plate_Viz <-function(data){
+Plate_Viz <- function(data, PlayerId = NULL){
+
+  checkmate::assert_data_frame(data, min.rows = 2, min.cols = 5,col.names = "named")
+  checkmate::assert_names(colnames(data), must.include =
+                            c("TaggedPitchType", "PitcherId", "RelSpeed", "PlateLocHeight", "PlateLocSide"))
+
+  if(!is.null(PlayerId)) {data <- dplyr::filter(data, .data$PitcherId == PlayerId)}
+
   grouped_data <- dplyr::group_by(data, .data$TaggedPitchType)
 
   Pitch_Execution_Table <- dplyr::summarise(grouped_data,
@@ -48,5 +57,4 @@ Plate_Viz <-function(data){
     ggplot2::guides(shape = "none") +
     ggplot2::theme_classic()
 
-  return(Plate_graph)
-}
+  return(Plate_graph)}

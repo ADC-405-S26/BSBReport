@@ -4,10 +4,12 @@
 \alias{Master_Summary}
 \title{Table Recapping all Relevant Location and Movement Metrics}
 \usage{
-Master_Summary(data)
+Master_Summary(data, PlayerId = NULL)
 }
 \arguments{
 \item{data}{Trackman data with standard naming}
+
+\item{PlayerId}{Optional: Unique integer for identifying specific pitcher / player}
 }
 \value{
 A table with all metrics averaged and color-coded strike percentage calculations
@@ -23,6 +25,7 @@ library(kableExtra)
 #mini sample trackman dataset
 demo_trackman_data <- data.frame(
   TaggedPitchType = c("Fastball", "Curveball"),
+  PitcherId = c(1122334455, 2233445566),
   RelSpeed = c(88.23, 80.35),
   InducedVertBreak = c(15.25, -6.44),
   HorzBreak = c(12.87, -3.45),
