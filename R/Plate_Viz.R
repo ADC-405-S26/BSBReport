@@ -28,6 +28,8 @@ Plate_Viz <- function(data, PlayerId = NULL){
   checkmate::assert_data_frame(data, min.rows = 2, min.cols = 5,col.names = "named")
   checkmate::assert_names(colnames(data), must.include =
                             c("TaggedPitchType", "PitcherId", "RelSpeed", "PlateLocHeight", "PlateLocSide"))
+  checkmate::assert_int(PlayerId, lower = 1000000000, upper = 9999999999, null.ok = TRUE)
+
 
   if(!is.null(PlayerId)) {data <- dplyr::filter(data, .data$PitcherId == PlayerId)}
 
@@ -35,11 +37,9 @@ Plate_Viz <- function(data, PlayerId = NULL){
 
   Pitch_Execution_Table <- dplyr::summarise(grouped_data,
                                             Pitch_Count = dplyr::n(),
-                                            Avg_Speed = mean(.data$RelSpeed, na.rm = TRUE),
-                                            Avg_Plate_Height = mean(.data$PlateLocHeight, na.rm = TRUE),
-                                            Avg_Plate_Side = mean(.data$PlateLocSide, na.rm = TRUE))
-
-  print(knitr::kable(Pitch_Execution_Table, digits = 2, "simple"))
+                                            Avg_Speed = round(mean(.data$RelSpeed, na.rm = TRUE), 2),
+                                            Avg_Plate_Height = round(mean(.data$PlateLocHeight, na.rm = TRUE), 2),
+                                            Avg_Plate_Side = round(mean(.data$PlateLocSide, na.rm = TRUE), 2))
 
 
   x <- c(-.95,.95,.95,-.95,-.95)
@@ -57,4 +57,6 @@ Plate_Viz <- function(data, PlayerId = NULL){
     ggplot2::guides(shape = "none") +
     ggplot2::theme_classic()
 
-  return(Plate_graph)}
+  outputs <- (list(plot = Plate_graph, table = Pitch_Execution_Table))
+
+  return(outputs)}

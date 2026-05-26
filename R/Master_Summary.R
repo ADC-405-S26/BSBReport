@@ -29,6 +29,8 @@ Master_Summary <- function(data, PlayerId = NULL){
                                col.names = "named")
   checkmate::assert_names(colnames(data), must.include =
                             c("TaggedPitchType", "PitcherId", "RelSpeed", "InducedVertBreak", "HorzBreak", "PlateLocHeight", "PlateLocSide"))
+  checkmate::assert_int(PlayerId, lower = 1000000000, upper = 9999999999, null.ok = TRUE)
+
 
   if(!is.null(PlayerId)) {data <- dplyr::filter(data, .data$PitcherId == PlayerId)}
 

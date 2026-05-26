@@ -27,6 +27,7 @@ Pitch_Plot <- function(data, PlayerId = NULL){
 
   checkmate::assert_names(colnames(data), must.include =
                             c("TaggedPitchType", "PitcherId", "RelSpeed", "InducedVertBreak", "HorzBreak"))
+  checkmate::assert_int(PlayerId, lower = 1000000000, upper = 9999999999, null.ok = TRUE)
 
   if(!is.null(PlayerId)) {data <- dplyr::filter(data, .data$PitcherId == PlayerId)}
 
@@ -34,11 +35,9 @@ Pitch_Plot <- function(data, PlayerId = NULL){
 
   Pitch_Analysis_Table <- dplyr::summarise(grouped_data,
                     Pitch_Count = dplyr::n(),
-                    Avg_Speed = mean(.data$RelSpeed, na.rm = TRUE),
-                    Avg_Vertical_Break = mean(.data$InducedVertBreak, na.rm = TRUE),
-                    Avg_Horizontal_Break = mean(.data$HorzBreak, na.rm = TRUE))
-
-  print(knitr::kable(Pitch_Analysis_Table, digits = 2, "simple"))
+                    Avg_Speed = round(mean(.data$RelSpeed, na.rm = TRUE), 2),
+                    Avg_Vertical_Break = round(mean(.data$InducedVertBreak, na.rm = TRUE), 2),
+                    Avg_Horizontal_Break = round(mean(.data$HorzBreak, na.rm = TRUE), 2))
 
   move_graph <- ggplot2::ggplot(
     data, ggplot2::aes(x = .data$HorzBreak, y = .data$InducedVertBreak, color = .data$TaggedPitchType)) +
@@ -52,4 +51,6 @@ Pitch_Plot <- function(data, PlayerId = NULL){
     ggplot2::guides(shape = "none") +
     ggplot2::theme_classic()
 
-  return(move_graph)}
+  outputs <- (list(plot = move_graph, table = Pitch_Analysis_Table))
+
+  return(outputs)}
