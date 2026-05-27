@@ -1,0 +1,23 @@
+---
+title: "Sample Workflow with BSBReport"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sample Workflow with BSBReport}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The `BSBReport` can provide multiple insights into a bullpen in terms of pitch quality, location, and velocity. To get started, you can install the package like this
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("ADC-405-S26/BSBReport")
+library(BSBReport)
+```

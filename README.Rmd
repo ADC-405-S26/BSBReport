@@ -1,0 +1,70 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# BSBReport
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of BSBReport is to assist in analyzing trackman data from bullpens or live at bats. BSBReport generates multiple plots and tables to better understand pitch data for future execution and pitch design programming.
+
+## Installation
+
+You can install the development version of BSBReport from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ADC-405-S26/BSBReport")
+```
+
+## Examples
+
+BSB Report has three main functions to view pitch movement data, pitch location data, and summary data from a session. 
+There are 3 functions to use, each relating to a different aspect of bullpen data. To use **BSBReport**, a standard trackman file must be used.
+```{r example}
+library(BSBReport)
+```
+
+
+### Pitch_Plot example
+**Pitch_Plot** can be used to visualize and summarize movement data from a session. The output yields a color-shape coded movement plot and a summary table with averages for relevant metrics. 
+```{r}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+Pitch_Plot(trackman_data)
+```
+
+### Plate_Viz example
+**Plate_Viz** examines the location of pitches relative to the strike zone and the plate. Offering a table with exact location averages along with other relevant metrics, the subsequent plot gives a visual for where pitches landed when compared to the strike zone. 
+```{r}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+Plate_Viz(trackman_data)
+
+```
+
+### Master_Summary example
+The command **Master_Summary** can be used to get a full analysis of both movement and location data. It also contains a *Strike Percentage* calculation based on the standard strike zone measurements.
+```{r, results = 'asis'}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+Master_Summary(trackman_data)
+```
+

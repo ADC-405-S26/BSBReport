@@ -23,7 +23,8 @@
 #'   HorzBreak = c(12.87, -3.45),
 #'   PlateLocHeight = c(1.73, 2.14),
 #'   PlateLocSide = c(0.84, 0.92))
-#'  Master_Summary(demo_trackman_data)
+#'
+#'Master_Summary(demo_trackman_data)
 Master_Summary <- function(data, PlayerId = NULL){
   checkmate::assert_data_frame(data, min.rows = 2, min.cols = 7,
                                col.names = "named")
@@ -53,7 +54,8 @@ Master_Summary <- function(data, PlayerId = NULL){
     Strike_table$Strike_Percentage, format = "html", bold = TRUE, color = "lightgrey",
     background = kableExtra::spec_color(Strike_table$Strike_Percentage, alpha = 0.7, direction = 1, option = "A"))
 
-  originial_table <- knitr::kable(Strike_table, format = "html",escape = FALSE, digits = 2)
+  originial_table <- knitr::kable(Strike_table, format = "html", col.names = c("Pitch Type", "Pitch Count", "Velocity (mph)", "Strike Percentage",
+                                                                               "Vertical Break (in)", "Horizontal Break (in)", "Location Height (ft)", "Location Side (ft)"), escape = FALSE, digits = 2)
   final_table <- kableExtra::kable_styling(originial_table)
   print(final_table)
 

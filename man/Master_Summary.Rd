@@ -31,5 +31,6 @@ demo_trackman_data <- data.frame(
   HorzBreak = c(12.87, -3.45),
   PlateLocHeight = c(1.73, 2.14),
   PlateLocSide = c(0.84, 0.92))
- Master_Summary(demo_trackman_data)
+
+Master_Summary(demo_trackman_data)
 }

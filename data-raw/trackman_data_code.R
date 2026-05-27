@@ -1,5 +1,4 @@
 ## code to prepare `trackman_data_code` dataset goes here
-# Sample Data Creation
 trackman_data <- data.frame(
   PitcherId = c("1122334455","2233445566","2233445566","2233445566","1122334455","1122334455","1122334455","1122334455",
                 "1122334455","1122334455","1122334455","1122334455","1122334455","1122334455","1122334455","1122334455",
@@ -30,6 +29,6 @@ trackman_data <- data.frame(
                82.2234, 81.4234, 81.6234, 80.4559, 82.5661,
                79.3234, 81.2344, 80.4256, 79.3569, 80.1342, 81.1342,
                77.2762, 76.3563, 75.4565, 76.2456, 76.2345))
-
+save(trackman_data, file = "data/trackman_data.rda")
 
 usethis::use_data(trackman_data_code, overwrite = TRUE)

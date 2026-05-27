@@ -8,3 +8,7 @@ project*.tgz
 BSBReport.Rcheck/
 BSBReport*.tar.gz
 BSBReport*.tgz
+inst/doc
+/doc/
+/Meta/
+docs
