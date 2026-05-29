@@ -16,9 +16,15 @@ knitr::opts_chunk$set(
 # BSBReport
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-The goal of BSBReport is to assist in analyzing trackman data from bullpens or live at bats. BSBReport generates multiple plots and tables to better understand pitch data for future execution and pitch design programming.
+The goal of BSBReport is to assist in analyzing trackman data from bullpens or live at bats. BSBReport generates multiple plots and tables to better understand pitch data for future execution and pitch design programming. It utilizes trackman raw data, which contains ball flight metrics from each pitch captured. Within these metrics, this package focuses on Pitch Velocity, Induced Vertical Break, Horizontal Break, and Plate Location.
+
+-   *Pitch Velocity*: The velocity recorded when the ball leaves the pitchers hand
+-   *Induced Vertical Break*: The amount of movement, in inches, applied to the ball via spin from the pitcher accounting for gravity. Can think of as the applied movement from the pitcher for a pitch.
+-   *Horizontal Break*: The amount of movement, in inches, applied to the ball via spin from the pitcher in the horizontal plane. Offspeed pitches usually have higher HB values on account of their increased side spin.
+-    *Plate Location*: Location approximate to where the ball crosses home plate. Displayed as "Pitch Height" and "Pitch Side", can be plotted to visualize and calculate strike percentage.
 
 ## Installation
 
@@ -31,16 +37,18 @@ devtools::install_github("ADC-405-S26/BSBReport")
 
 ## Examples
 
-BSB Report has three main functions to view pitch movement data, pitch location data, and summary data from a session. 
-There are 3 functions to use, each relating to a different aspect of bullpen data. To use **BSBReport**, a standard trackman file must be used.
-```{r example}
+BSB Report has three main functions to view pitch movement data, pitch location data, and summary data from a session. There are 3 functions to use, each relating to a different aspect of bullpen data. To use **BSBReport**, a standard trackman file must be used. When looking at our demo data, you can see two distinct PitcherIds, as well as the pitch type and other key metrics. 
+
+```{r example, message = FALSE, warning = FALSE}
 library(BSBReport)
+head(trackman_data)
 ```
 
-
 ### Pitch_Plot example
-**Pitch_Plot** can be used to visualize and summarize movement data from a session. The output yields a color-shape coded movement plot and a summary table with averages for relevant metrics. 
-```{r}
+
+**Pitch_Plot** can be used to visualize and summarize movement data from a session. The output yields a color-shape coded movement plot and a summary table with averages for relevant metrics.
+
+```{r, message = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
 library(knitr)
@@ -48,8 +56,10 @@ Pitch_Plot(trackman_data)
 ```
 
 ### Plate_Viz example
-**Plate_Viz** examines the location of pitches relative to the strike zone and the plate. Offering a table with exact location averages along with other relevant metrics, the subsequent plot gives a visual for where pitches landed when compared to the strike zone. 
-```{r}
+
+**Plate_Viz** examines the location of pitches relative to the strike zone and the plate. Offering a table with exact location averages along with other relevant metrics, the subsequent plot gives a visual for where pitches landed when compared to the strike zone.
+
+```{r,message = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
 library(knitr)
@@ -58,8 +68,10 @@ Plate_Viz(trackman_data)
 ```
 
 ### Master_Summary example
+
 The command **Master_Summary** can be used to get a full analysis of both movement and location data. It also contains a *Strike Percentage* calculation based on the standard strike zone measurements.
-```{r, results = 'asis'}
+
+```{r, results = 'asis', message = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
 library(knitr)
@@ -67,4 +79,3 @@ library(kableExtra)
 
 Master_Summary(trackman_data)
 ```
-

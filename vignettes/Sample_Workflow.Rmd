@@ -16,8 +16,53 @@ knitr::opts_chunk$set(
 
 The `BSBReport` can provide multiple insights into a bullpen in terms of pitch quality, location, and velocity. To get started, you can install the package like this
 
-```{r, eval = FALSE}
+```{r,eval = FALSE, message = FALSE, warning = FALSE}
 # install.packages("devtools")
 devtools::install_github("ADC-405-S26/BSBReport")
 library(BSBReport)
 ```
+
+### Loading and Exploration
+
+Once installed, we can load the package take a peak at the dataset. This demo data has 25 pitches, and 2 distinct Players (1122334455 and 2233445566). For this workflow, we want to look specifically at Player 1 (1122334455). To only select this players pitches, we get into the second parameter of the package. *PlayerId* can be specified in any call along with the dataset name. We will make a note of the PlayerId we want and save it for future use.
+```{r example, message = FALSE, warning = FALSE}
+library(BSBReport)
+head(trackman_data)
+Demo_Player <- 1122334455
+```
+
+### Pitch_Plot: Movement Data
+One essential in bullpen analysis is a pitch movement plot, identifying the various pitch types and their "profiles". In devleoping a good arsenal, understanding the movement profile is needed to change grips, intent, or general movement trends. To do so, we can use *Pitch_Plot*. This function outputs both a summary table and a plot of the pitch movement data. In our call, we specify that *PlayerId* to select for one pitcher. 
+
+```{r, message = FALSE, warning = FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+Pitch_Plot(trackman_data, PlayerId = Demo_Player)
+```
+The plotted output groups pitch types by color and shape, allowing for clear distinctions. To look at exact averages, the table provides the information. With this data you can make practical insights for pitch quality and consistency. The other key component of understanding a pitchers data is their location and execution. This is where *Plate_Viz* and *Master_Summary* come into play. 
+
+### Plate_Viz and Master_Summary
+
+The two other primary functions revolve around this location and execution side of pitch design. First, to visualize the general trends in strike zone misses based on pitch type, *Plate_Viz* works the best. Built using standard zone measurements (plate and height dimensions), the plot and table use plate location data from trackman to map out what pitches are messing where. The table gives us averages based on pitch type once again, allowing for a birds eye view of pitch location
+
+```{r,message = FALSE, warning = FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+Plate_Viz(trackman_data, PlayerId = Demo_Player)
+
+```
+
+
+The command **Master_Summary** can be used to get a full analysis of both movement and location data. The "bang for your buck" function prints an *html* table, rendering in higher quality. It also contains a *Strike Percentage* calculation based on the standard strike zone measurements. A nasty pitch from a movement perspective is only effective if it can be thrown in the strike zone. To get an easy sense of strike percentage, the column is color-coded and ranked in descending order.
+
+```{r, results = 'asis', message = FALSE, warning = FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+Master_Summary(trackman_data, PlayerId = Demo_Player)
+```
+As we can see, the sinker and changeup command was not in a great spot, with the slider being the most accurate pitch of the session. Together, the functions in **BSBReport** allow for key analytical insights into bullpen quality and assessment. 
