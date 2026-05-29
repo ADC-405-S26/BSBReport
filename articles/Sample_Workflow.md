@@ -7,6 +7,7 @@ the package like this
 ``` r
 
 # install.packages("devtools")
+# install.packages("remotes")
 devtools::install_github("ADC-405-S26/BSBReport")
 library(BSBReport)
 ```

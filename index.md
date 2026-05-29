@@ -29,6 +29,7 @@ You can install the development version of BSBReport from
 ``` r
 
 # install.packages("devtools")
+# install.packages("remotes")
 devtools::install_github("ADC-405-S26/BSBReport")
 ```
 
