@@ -18,6 +18,7 @@ The `BSBReport` can provide multiple insights into a bullpen in terms of pitch q
 
 ```{r,eval = FALSE, message = FALSE, warning = FALSE}
 # install.packages("devtools")
+# install.packages("remotes")
 devtools::install_github("ADC-405-S26/BSBReport")
 library(BSBReport)
 ```
