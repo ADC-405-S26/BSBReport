@@ -3,7 +3,23 @@
 The goal of BSBReport is to assist in analyzing trackman data from
 bullpens or live at bats. BSBReport generates multiple plots and tables
 to better understand pitch data for future execution and pitch design
-programming.
+programming. It utilizes trackman raw data, which contains ball flight
+metrics from each pitch captured. Within these metrics, this package
+focuses on Pitch Velocity, Induced Vertical Break, Horizontal Break, and
+Plate Location.
+
+- *Pitch Velocity*: The velocity recorded when the ball leaves the
+  pitchers hand
+- *Induced Vertical Break*: The amount of movement, in inches, applied
+  to the ball via spin from the pitcher accounting for gravity. Can
+  think of as the applied movement from the pitcher for a pitch.
+- *Horizontal Break*: The amount of movement, in inches, applied to the
+  ball via spin from the pitcher in the horizontal plane. Offspeed
+  pitches usually have higher HB values on account of their increased
+  side spin.
+- *Plate Location*: Location approximate to where the ball crosses home
+  plate. Displayed as “Pitch Height” and “Pitch Side”, can be plotted to
+  visualize and calculate strike percentage.
 
 ## Installation
 
@@ -21,11 +37,28 @@ devtools::install_github("ADC-405-S26/BSBReport")
 BSB Report has three main functions to view pitch movement data, pitch
 location data, and summary data from a session. There are 3 functions to
 use, each relating to a different aspect of bullpen data. To use
-**BSBReport**, a standard trackman file must be used.
+**BSBReport**, a standard trackman file must be used. When looking at
+our demo data, you can see two distinct PitcherIds, as well as the pitch
+type and other key metrics.
 
 ``` r
 
 library(BSBReport)
+head(trackman_data)
+#>    PitcherId TaggedPitchType PitchCount InducedVertBreak HorzBreak
+#> 1 1122334455        Fastball          1           15.532    12.240
+#> 2 2233445566        Fastball          2           14.226    12.843
+#> 3 2233445566        Fastball          3           16.349    13.555
+#> 4 2233445566          Cutter          4           11.443     1.223
+#> 5 1122334455          Cutter          5           10.342     0.566
+#> 6 1122334455          Cutter          6           10.550    -0.445
+#>   PlateLocHeight PlateLocSide RelSpeed
+#> 1        1.54649     -0.77511 88.23450
+#> 2        1.62280      0.95868 89.43440
+#> 3        2.30084     -0.80157 87.33450
+#> 4        1.98087     -0.87330 84.42350
+#> 5        2.89414     -1.49088 83.72340
+#> 6        1.43716     -0.99222 84.61345
 ```
 
 ### Pitch_Plot example
@@ -37,14 +70,6 @@ summary table with averages for relevant metrics.
 ``` r
 
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(ggplot2)
 library(knitr)
 Pitch_Plot(trackman_data)
@@ -111,11 +136,6 @@ library(dplyr)
 library(ggplot2)
 library(knitr)
 library(kableExtra)
-#> 
-#> Attaching package: 'kableExtra'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     group_rows
 
 Master_Summary(trackman_data)
 ```

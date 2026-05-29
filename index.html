@@ -55,7 +55,17 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The goal of BSBReport is to assist in analyzing trackman data from bullpens or live at bats. BSBReport generates multiple plots and tables to better understand pitch data for future execution and pitch design programming.</p>
+<p>The goal of BSBReport is to assist in analyzing trackman data from bullpens or live at bats. BSBReport generates multiple plots and tables to better understand pitch data for future execution and pitch design programming. It utilizes trackman raw data, which contains ball flight metrics from each pitch captured. Within these metrics, this package focuses on Pitch Velocity, Induced Vertical Break, Horizontal Break, and Plate Location.</p>
+<ul>
+<li>
+<em>Pitch Velocity</em>: The velocity recorded when the ball leaves the pitchers hand</li>
+<li>
+<em>Induced Vertical Break</em>: The amount of movement, in inches, applied to the ball via spin from the pitcher accounting for gravity. Can think of as the applied movement from the pitcher for a pitch.</li>
+<li>
+<em>Horizontal Break</em>: The amount of movement, in inches, applied to the ball via spin from the pitcher in the horizontal plane. Offspeed pitches usually have higher HB values on account of their increased side spin.</li>
+<li>
+<em>Plate Location</em>: Location approximate to where the ball crosses home plate. Displayed as “Pitch Height” and “Pitch Side”, can be plotted to visualize and calculate strike percentage.</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -67,23 +77,30 @@
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>BSB Report has three main functions to view pitch movement data, pitch location data, and summary data from a session. There are 3 functions to use, each relating to a different aspect of bullpen data. To use <strong>BSBReport</strong>, a standard trackman file must be used.</p>
+<p>BSB Report has three main functions to view pitch movement data, pitch location data, and summary data from a session. There are 3 functions to use, each relating to a different aspect of bullpen data. To use <strong>BSBReport</strong>, a standard trackman file must be used. When looking at our demo data, you can see two distinct PitcherIds, as well as the pitch type and other key metrics.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adc-405-s26.github.io/BSBReport/">BSBReport</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adc-405-s26.github.io/BSBReport/">BSBReport</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trackman_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    PitcherId TaggedPitchType PitchCount InducedVertBreak HorzBreak</span></span>
+<span><span class="co">#&gt; 1 1122334455        Fastball          1           15.532    12.240</span></span>
+<span><span class="co">#&gt; 2 2233445566        Fastball          2           14.226    12.843</span></span>
+<span><span class="co">#&gt; 3 2233445566        Fastball          3           16.349    13.555</span></span>
+<span><span class="co">#&gt; 4 2233445566          Cutter          4           11.443     1.223</span></span>
+<span><span class="co">#&gt; 5 1122334455          Cutter          5           10.342     0.566</span></span>
+<span><span class="co">#&gt; 6 1122334455          Cutter          6           10.550    -0.445</span></span>
+<span><span class="co">#&gt;   PlateLocHeight PlateLocSide RelSpeed</span></span>
+<span><span class="co">#&gt; 1        1.54649     -0.77511 88.23450</span></span>
+<span><span class="co">#&gt; 2        1.62280      0.95868 89.43440</span></span>
+<span><span class="co">#&gt; 3        2.30084     -0.80157 87.33450</span></span>
+<span><span class="co">#&gt; 4        1.98087     -0.87330 84.42350</span></span>
+<span><span class="co">#&gt; 5        2.89414     -1.49088 83.72340</span></span>
+<span><span class="co">#&gt; 6        1.43716     -0.99222 84.61345</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pitch_plot-example">Pitch_Plot example<a class="anchor" aria-label="anchor" href="#pitch_plot-example"></a>
 </h3>
 <p><strong>Pitch_Plot</strong> can be used to visualize and summarize movement data from a session. The output yields a color-shape coded movement plot and a summary table with averages for relevant metrics.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/Pitch_Plot.html">Pitch_Plot</a></span><span class="op">(</span><span class="va">trackman_data</span><span class="op">)</span></span>
@@ -133,11 +150,6 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'kableExtra'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     group_rows</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/Master_Summary.html">Master_Summary</a></span><span class="op">(</span><span class="va">trackman_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">

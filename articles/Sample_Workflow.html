@@ -70,7 +70,307 @@ started, you can install the package like this</p>
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ADC-405-S26/BSBReport"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adc-405-s26.github.io/BSBReport/">BSBReport</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<div class="section level3">
+<h3 id="loading-and-exploration">Loading and Exploration<a class="anchor" aria-label="anchor" href="#loading-and-exploration"></a>
+</h3>
+<p>Once installed, we can load the package take a peak at the dataset.
+This demo data has 25 pitches, and 2 distinct Players (1122334455 and
+2233445566). For this workflow, we want to look specifically at Player 1
+(1122334455). To only select this players pitches, we get into the
+second parameter of the package. <em>PlayerId</em> can be specified in
+any call along with the dataset name. We will make a note of the
+PlayerId we want and save it for future use.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adc-405-s26.github.io/BSBReport/">BSBReport</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trackman_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    PitcherId TaggedPitchType PitchCount InducedVertBreak HorzBreak</span></span>
+<span><span class="co">#&gt; 1 1122334455        Fastball          1           15.532    12.240</span></span>
+<span><span class="co">#&gt; 2 2233445566        Fastball          2           14.226    12.843</span></span>
+<span><span class="co">#&gt; 3 2233445566        Fastball          3           16.349    13.555</span></span>
+<span><span class="co">#&gt; 4 2233445566          Cutter          4           11.443     1.223</span></span>
+<span><span class="co">#&gt; 5 1122334455          Cutter          5           10.342     0.566</span></span>
+<span><span class="co">#&gt; 6 1122334455          Cutter          6           10.550    -0.445</span></span>
+<span><span class="co">#&gt;   PlateLocHeight PlateLocSide RelSpeed</span></span>
+<span><span class="co">#&gt; 1        1.54649     -0.77511 88.23450</span></span>
+<span><span class="co">#&gt; 2        1.62280      0.95868 89.43440</span></span>
+<span><span class="co">#&gt; 3        2.30084     -0.80157 87.33450</span></span>
+<span><span class="co">#&gt; 4        1.98087     -0.87330 84.42350</span></span>
+<span><span class="co">#&gt; 5        2.89414     -1.49088 83.72340</span></span>
+<span><span class="co">#&gt; 6        1.43716     -0.99222 84.61345</span></span>
+<span><span class="va">Demo_Player</span> <span class="op">&lt;-</span> <span class="fl">1122334455</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="pitch_plot-movement-data">Pitch_Plot: Movement Data<a class="anchor" aria-label="anchor" href="#pitch_plot-movement-data"></a>
+</h3>
+<p>One essential in bullpen analysis is a pitch movement plot,
+identifying the various pitch types and their “profiles”. In devleoping
+a good arsenal, understanding the movement profile is needed to change
+grips, intent, or general movement trends. To do so, we can use
+<em>Pitch_Plot</em>. This function outputs both a summary table and a
+plot of the pitch movement data. In our call, we specify that
+<em>PlayerId</em> to select for one pitcher.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Pitch_Plot.html">Pitch_Plot</a></span><span class="op">(</span><span class="va">trackman_data</span>, PlayerId <span class="op">=</span> <span class="va">Demo_Player</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $plot</span></span></code></pre></div>
+<p><img src="Sample_Workflow_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
+<pre><code><span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $table</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   TaggedPitchType Pitch_Count Avg_Speed Avg_Vertical_Break Avg_Horizontal_Break</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Changeup                  5      81.7               6.8                 18.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Curveball                 1      77.3              -<span style="color: #BB0000;">8.47</span>               -<span style="color: #BB0000;">10.2</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cutter                    2      84.2              10.4                  0.06</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Fastball                  1      88.2              15.5                 12.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Sinker                    3      87.3              12.7                 17.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Slider                    6      80.3               1.42                -<span style="color: #BB0000;">8.72</span></span></span></code></pre>
+<p>The plotted output groups pitch types by color and shape, allowing
+for clear distinctions. To look at exact averages, the table provides
+the information. With this data you can make practical insights for
+pitch quality and consistency. The other key component of understanding
+a pitchers data is their location and execution. This is where
+<em>Plate_Viz</em> and <em>Master_Summary</em> come into play.</p>
+</div>
+<div class="section level3">
+<h3 id="plate_viz-and-master_summary">Plate_Viz and Master_Summary<a class="anchor" aria-label="anchor" href="#plate_viz-and-master_summary"></a>
+</h3>
+<p>The two other primary functions revolve around this location and
+execution side of pitch design. First, to visualize the general trends
+in strike zone misses based on pitch type, <em>Plate_Viz</em> works the
+best. Built using standard zone measurements (plate and height
+dimensions), the plot and table use plate location data from trackman to
+map out what pitches are messing where. The table gives us averages
+based on pitch type once again, allowing for a birds eye view of pitch
+location</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Plate_Viz.html">Plate_Viz</a></span><span class="op">(</span><span class="va">trackman_data</span>, PlayerId <span class="op">=</span> <span class="va">Demo_Player</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $plot</span></span></code></pre></div>
+<p><img src="Sample_Workflow_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
+<pre><code><span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $table</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   TaggedPitchType Pitch_Count Avg_Speed Avg_Plate_Height Avg_Plate_Side</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Changeup                  5      81.7             1.37          -<span style="color: #BB0000;">0.46</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Curveball                 1      77.3             0.52          -<span style="color: #BB0000;">1.45</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cutter                    2      84.2             2.17          -<span style="color: #BB0000;">1.24</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Fastball                  1      88.2             1.55          -<span style="color: #BB0000;">0.78</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Sinker                    3      87.3             1.69           0.69</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Slider                    6      80.3             1.38          -<span style="color: #BB0000;">0.6</span></span></span></code></pre>
+<p>The command <strong>Master_Summary</strong> can be used to get a full
+analysis of both movement and location data. The “bang for your buck”
+function prints an <em>html</em> table, rendering in higher quality. It
+also contains a <em>Strike Percentage</em> calculation based on the
+standard strike zone measurements. A nasty pitch from a movement
+perspective is only effective if it can be thrown in the strike zone. To
+get an easy sense of strike percentage, the column is color-coded and
+ranked in descending order.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Master_Summary.html">Master_Summary</a></span><span class="op">(</span><span class="va">trackman_data</span>, PlayerId <span class="op">=</span> <span class="va">Demo_Player</span><span class="op">)</span></span></code></pre></div>
+<table class="table table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+Pitch Type
+</th>
+<th style="text-align:right;">
+Pitch Count
+</th>
+<th style="text-align:right;">
+Velocity (mph)
+</th>
+<th style="text-align:left;">
+Strike Percentage
+</th>
+<th style="text-align:right;">
+Vertical Break (in)
+</th>
+<th style="text-align:right;">
+Horizontal Break (in)
+</th>
+<th style="text-align:right;">
+Location Height (ft)
+</th>
+<th style="text-align:right;">
+Location Side (ft)
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Slider
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+80.27
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: lightgrey !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 253, 191, 179) !important;">50</span>
+</td>
+<td style="text-align:right;">
+1.42
+</td>
+<td style="text-align:right;">
+-8.72
+</td>
+<td style="text-align:right;">
+1.38
+</td>
+<td style="text-align:right;">
+-0.60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sinker
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+87.32
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: lightgrey !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(241, 96, 93, 179) !important;">33.3</span>
+</td>
+<td style="text-align:right;">
+12.66
+</td>
+<td style="text-align:right;">
+17.07
+</td>
+<td style="text-align:right;">
+1.69
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Changeup
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+81.66
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: lightgrey !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(140, 41, 129, 179) !important;">20</span>
+</td>
+<td style="text-align:right;">
+6.80
+</td>
+<td style="text-align:right;">
+18.29
+</td>
+<td style="text-align:right;">
+1.37
+</td>
+<td style="text-align:right;">
+-0.46
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Curveball
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+77.28
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: lightgrey !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(0, 0, 4, 179) !important;">0</span>
+</td>
+<td style="text-align:right;">
+-8.47
+</td>
+<td style="text-align:right;">
+-10.22
+</td>
+<td style="text-align:right;">
+0.52
+</td>
+<td style="text-align:right;">
+-1.45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cutter
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+84.17
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: lightgrey !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(0, 0, 4, 179) !important;">0</span>
+</td>
+<td style="text-align:right;">
+10.45
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+-1.24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fastball
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+88.23
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: lightgrey !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(0, 0, 4, 179) !important;">0</span>
+</td>
+<td style="text-align:right;">
+15.53
+</td>
+<td style="text-align:right;">
+12.24
+</td>
+<td style="text-align:right;">
+1.55
+</td>
+<td style="text-align:right;">
+-0.78
+</td>
+</tr>
+</tbody>
+</table>
+<p>As we can see, the sinker and changeup command was not in a great
+spot, with the slider being the most accurate pitch of the session.
+Together, the functions in <strong>BSBReport</strong> allow for key
+analytical insights into bullpen quality and assessment.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
